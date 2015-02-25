@@ -1,3 +1,8 @@
+[![Latest Stable Version](https://img.shields.io/wordpress/plugin/v/the-events-calendar-shortcode.svg?style=flat-square)](https://packagist.org/packages/ankitpokhrel/Dynamic-Featured-Image)
+[![WordPress](https://img.shields.io/wordpress/v/the-events-calendar-shortcode.svg?style=flat-square)](https://wordpress.org/plugins/dynamic-featured-image/)
+[![WordPress Rating](https://img.shields.io/wordpress/plugin/r/the-events-calendar-shortcode.svg?style=flat-square)](https://wordpress.org/plugins/dynamic-featured-image/)
+[![Downloads](https://img.shields.io/wordpress/plugin/dt/the-events-calendar-shortcode.svg?style=flat-square)](https://wordpress.org/plugins/the-events-calendar-shortcode/)
+
 # The Events Calendar Shortcode
 
 _Adds shortcode functionality to The Events Calendar Plugin (Free Version) by Modern Tribe._
