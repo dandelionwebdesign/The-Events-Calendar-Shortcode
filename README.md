@@ -65,3 +65,7 @@ The shortcode displays lists of your events. You can control the event display w
   ```  
   [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false']
   ```
+
+## Questions about this project?
+
+Please feel free to report any bug found. Pull requests, issues, and plugin recommendations are more than welcome!
