@@ -30,25 +30,30 @@ The shortcode displays lists of your events. You can control the event display w
   ```
   [ecs-list-events order='DESC']
   ```
+
+5. author - To only show events posted by particular authors. Value should be a user ID, or several delimited by commas.  
+  ```
+  [ecs-list-events author='2'] or [ecs-list-events author='2,3,6,42'].
+  ```
   
-5. date - To show or hide date. Value can be `true` or `false`. Default is `true`.  
+6. date - To show or hide date. Value can be `true` or `false`. Default is `true`.  
   ```
   [ecs-list-events eventdetails='false']
   ```
   
-6. venue - To show or hide the venue. Value can be `true` or `false`. Default is `false`.  
+7. venue - To show or hide the venue. Value can be `true` or `false`. Default is `false`.  
   ```
   [ecs-list-events venue='true']
   ```
   
-7. excerpt - To show or hide the excerpt and set excerpt length. Default is false.  
+8. excerpt - To show or hide the excerpt and set excerpt length. Default is false.  
   ```
   [ecs-list-events excerpt='true'] //display excerpt with length 100  
   
   [ecs-list-events excerpt='300'] //display excerpt with length 300
   ```
   
-8. thumb - To show or hide thumbnail image. Default is `false`.  
+9. thumb - To show or hide thumbnail image. Default is `false`.  
   ```
   //display post thumbnail in default thumbnail dimension from media settings.  
   
@@ -59,9 +64,9 @@ The shortcode displays lists of your events. You can control the event display w
   [ecs-list-events thumb='true' thumbwidth='150' thumbheight='150']
   ```
   
-9. message - Message to show when there are no events. Defaults to 'There are no upcoming events at this time.'
+10. message - Message to show when there are no events. Defaults to 'There are no upcoming events at this time.'
 
-10. viewall - Determines whether to show 'View all events' or not. Values can be `true` or `false`. Default to `true`.
+11. viewall - Determines whether to show 'View all events' or not. Values can be `true` or `false`. Default to `true`.
   ```  
   [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false']
   ```

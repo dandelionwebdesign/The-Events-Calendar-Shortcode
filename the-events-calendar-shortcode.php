@@ -69,6 +69,7 @@ class Events_Calendar_Shortcode
 			'limit' => 5,
 			'eventdetails' => 'true',
 			'venue' => 'false',
+			'author' => null,
 			'message' => 'There are no upcoming events at this time.',
 			'order' => 'ASC',
 			'viewall' => 'false',
@@ -94,6 +95,7 @@ class Events_Calendar_Shortcode
 				'tax_query'=> $ecs_event_tax,
 				'meta_key' => '_EventEndDate',
 				'orderby' => 'meta_value',
+				'author' => $ecs_author,
 				'order' => $ecs_order,
 				'meta_query' => array(
 									array(
