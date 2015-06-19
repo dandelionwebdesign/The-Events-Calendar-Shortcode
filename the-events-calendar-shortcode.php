@@ -6,6 +6,8 @@
  Version: 1.0.7
  Author: Dandelion Web Design Inc.
  Author URI: http://dandelionwebdesign.com
+ Contributors: Brainchild Media Group, Reddit user miahelf, tallavic, hejeva2
+ Contributor URL: http://brainchildmediagroup.com, http://www.reddit.com/user/miahelf
  License: GPL2 or later
  License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
