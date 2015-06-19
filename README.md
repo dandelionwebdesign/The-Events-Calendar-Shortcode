@@ -19,6 +19,7 @@ The shortcode displays lists of your events. You can control the event display w
 2. cat - Represents event category.  
   ```
   [ecs-list-events cat='festival']
+  [ecs-list-events cat='festival, personal']
   ```
   
 3. limit - Total number of events to show. Default is 5.  
@@ -69,6 +70,26 @@ The shortcode displays lists of your events. You can control the event display w
 11. viewall - Determines whether to show 'View all events' or not. Values can be `true` or `false`. Default to `true`.
   ```  
   [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false']
+  ```
+
+12. contentorder - Manage the order of content with commas. Default to `title, thumbnail, excerpt, date, venue`.
+  ```  
+  [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false' contentorder='title, thumbnail, excerpt, date, venue']
+  ```
+
+13. month identifier - Show only specific Month.
+  ```  
+  [ecs-list-events cat='festival' month='2015-06']
+  ```
+
+14. past events - Show Outdated Events.
+  ```  
+  [ecs-list-events cat='festival' past='yes']
+  ```
+
+15. order key - Order with Start Date.
+  ```  
+  [ecs-list-events cat='festival' key='start date']
   ```
 
 ## Questions about this project?

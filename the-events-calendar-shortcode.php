@@ -3,7 +3,7 @@
  Plugin Name: The Events Calendar Shortcode
  Plugin URI: http://dandelionwebdesign.com/downloads/shortcode-modern-tribe/
  Description: An addon to add shortcode functionality for <a href="http://wordpress.org/plugins/the-events-calendar/">The Events Calendar Plugin (Free Version) by Modern Tribe</a>.
- Version: 1.0.6
+ Version: 1.0.7
  Author: Dandelion Web Design Inc.
  Author URI: http://dandelionwebdesign.com
  License: GPL2 or later
@@ -22,7 +22,7 @@ if ( !defined( 'ABSPATH' ) ) {
  *
  * @package events-calendar-shortcode
  * @author Dandelion Web Design Inc.
- * @version 1.0.0
+ * @version 1.0.7
  */
 class Events_Calendar_Shortcode
 {
@@ -31,7 +31,7 @@ class Events_Calendar_Shortcode
 	 *
 	 * @since 1.0.0
 	 */
-	const VERSION = '1.0.6';
+	const VERSION = '1.0.7';
 
 	/**
 	 * Constructor. Hooks all interactions to initialize the class.
@@ -66,20 +66,28 @@ class Events_Calendar_Shortcode
 
 		extract( shortcode_atts( array(
 			'cat' => '',
+			'month' => '',
 			'limit' => 5,
 			'eventdetails' => 'true',
+			'time' => null,
+			'past' => null,
 			'venue' => 'false',
 			'author' => null,
 			'message' => 'There are no upcoming events at this time.',
+			'key' => 'End Date',
 			'order' => 'ASC',
 			'viewall' => 'false',
 			'excerpt' => 'false',
 			'thumb' => 'false',
 			'thumbwidth' => '',
-			'thumbheight' => ''
+			'thumbheight' => '',
+			'contentorder' => 'title, thumbnail, excerpt, date, venue'
 		), $atts, 'ecs-list-events' ), EXTR_PREFIX_ALL, 'ecs' );
 
-		if ($ecs_cat) {
+		// Category
+		if ( $ecs_cat ) {
+			$ecs_cats = explode( ",", $ecs_cat );
+			$ecs_cats = array_map( 'trim', $ecs_cats );
 			$ecs_event_tax = array(
 				array(
 					'taxonomy' => 'tribe_events_cat',
@@ -89,58 +97,113 @@ class Events_Calendar_Shortcode
 			);
 		}
 
+		// Past Event
+		$meta_date_compare = '>=';
+		$meta_date_date = date( 'Y-m-d' );
+
+		if ( $ecs_time == 'past' || !empty( $ecs_past ) ) {
+			$meta_date_compare = '<';
+		}
+
+		// Key
+		if ( str_replace( ' ', '', trim( strtolower( $ecs_key ) ) ) == 'startdate' ) {
+			$ecs_key = '_EventStartDate';
+		} else {
+			$ecs_key = '_EventEndDate';
+		}
+		// Date
+		$ecs_meta_date = array(
+			array(
+				'key' => $ecs_key,
+				'value' => $meta_date_date,
+				'compare' => $meta_date_compare,
+				'type' => 'DATETIME'
+			)
+		);
+
+		// Specific Month
+		if ($ecs_month) {
+			$month_array = explode("-", $ecs_month);
+
+			$month_yearstr = $month_array[0];
+			$month_monthstr = $month_array[1];
+
+			$month_startdate = date($month_yearstr . "-" . $month_monthstr . "-1");
+			$month_enddate = date($month_yearstr . "-" . $month_monthstr . "-t");
+
+			$ecs_meta_date = array(
+				array(
+					'key' => $ecs_key,
+					'value' => array($month_startdate, $month_enddate),
+					'compare' => 'BETWEEN',
+					'type' => 'DATETIME'
+				)
+			);
+		}
+
 		$posts = get_posts( array(
-				'post_type' => 'tribe_events',
-				'posts_per_page' => $ecs_limit,
-				'tax_query'=> $ecs_event_tax,
-				'meta_key' => '_EventEndDate',
-				'orderby' => 'meta_value',
-				'author' => $ecs_author,
-				'order' => $ecs_order,
-				'meta_query' => array(
-									array(
-										'key' => '_EventEndDate',
-										'value' => date('Y-m-d'),
-										'compare' => '>=',
-										'type' => 'DATETIME'
-									)
-								)
+			'post_type' => 'tribe_events',
+			'posts_per_page' => $ecs_limit,
+			'tax_query'=> $ecs_event_tax,
+			'meta_key' => $ecs_key,
+			'orderby' => 'meta_value',
+			'author' => $ecs_author,
+			'order' => $ecs_order,
+			'meta_query' => array( $ecs_meta_date )
 		) );
 
 		if ($posts) {
-
 			$output .= '<ul class="ecs-event-list">';
+			$ecs_contentorder = explode( ',', $ecs_contentorder );
+
 			foreach( $posts as $post ) :
 				setup_postdata( $post );
+
 				$output .= '<li class="ecs-event">';
-					$output .= '<h4 class="entry-title summary">' .
-									'<a href="' . tribe_get_event_link() . '" rel="bookmark">' . get_the_title() . '</a>
-								</h4>';
-			
-					if( self::isValid($ecs_thumb) ) {
-						$thumbWidth = is_numeric($ecs_thumbwidth) ? $ecs_thumbwidth : '';
-						$thumbHeight = is_numeric($ecs_thumbheight) ? $ecs_thumbheight : '';
-						if( !empty($thumbWidth) && !empty($thumbHeight) ) {
-							$output .= get_the_post_thumbnail(get_the_ID(), array($thumbWidth, $thumbHeight) );
-						} else {
-							$output .= get_the_post_thumbnail(get_the_ID(), 'medium');
-						}
+
+				// Put Values into $output
+				foreach ( $ecs_contentorder as $contentorder ) {
+					switch ( trim( $contentorder ) ) {
+						case 'title' :
+							$output .= '<h4 class="entry-title summary">' .
+											'<a href="' . tribe_get_event_link() . '" rel="bookmark">' . get_the_title() . '</a>
+										</h4>';
+							break;
+
+						case 'thumbnail' :
+							if( self::isValid($ecs_thumb) ) {
+								$thumbWidth = is_numeric($ecs_thumbwidth) ? $ecs_thumbwidth : '';
+								$thumbHeight = is_numeric($ecs_thumbheight) ? $ecs_thumbheight : '';
+								if( !empty($thumbWidth) && !empty($thumbHeight) ) {
+									$output .= get_the_post_thumbnail(get_the_ID(), array($thumbWidth, $thumbHeight) );
+								} else {
+									$output .= get_the_post_thumbnail(get_the_ID(), 'medium');
+								}
+							}
+							break;
+
+						case 'excerpt' :
+							if( self::isValid($ecs_excerpt) ) {
+								$excerptLength = is_numeric($ecs_excerpt) ? $ecs_excerpt : 100;
+								$output .= '<p class="ecs-excerpt">' .
+												self::get_excerpt($excerptLength) .
+											'</p>';
+							}
+							break;
+
+						case 'date' :
+							if( self::isValid($ecs_eventdetails) ) {
+								$output .= '<span class="duration time">' . tribe_events_event_schedule_details() . '</span>';
+							}
+							break;
+
+						case 'venue' :
+							if( self::isValid($ecs_venue) ) {
+								$output .= '<span class="duration venue"><em> at </em>' . tribe_get_venue() . '</span>';
+							}
+							break;
 					}
-			
-					if( self::isValid($ecs_excerpt) ) {
-						$excerptLength = is_numeric($ecs_excerpt) ? $ecs_excerpt : 100;
-						$output .= '<p class="ecs-excerpt">' . 
-										self::get_excerpt($excerptLength) . 
-									'</p>';
-					}
-			
-					if( self::isValid($ecs_eventdetails) ) {	
-						$output .= '<span class="duration time">' . tribe_events_event_schedule_details() . '</span>';
-					}
-			
-					if( self::isValid($ecs_venue) ) {
-						$output .= '<span class="duration venue"><em> at </em>' . tribe_get_venue() . '</span>';	
-					}
+				}
 				$output .= '</li>';
 			endforeach;
 			$output .= '</ul>';
@@ -162,11 +225,11 @@ class Events_Calendar_Shortcode
 	 * Checks if the plugin attribute is valid
 	 *
 	 * @since 1.0.5
-	 * 
+	 *
 	 * @param string $prop
 	 * @return boolean
 	 */
-	private function isValid( $prop ) 
+	private function isValid( $prop )
 	{
 		return ($prop !== 'false');
 	}
