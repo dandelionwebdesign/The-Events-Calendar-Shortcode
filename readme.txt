@@ -19,7 +19,7 @@ Example shortcode to show next 8 events in the category festival in ASC order wi
 
 = Shortcode Options: =
 * Basic shortcode: [ecs-list-events]
-* cat - Represents event category. [ecs-list-events cat='festival']
+* cat - Represents event category. [ecs-list-events cat='festival, personal’]
 * limit - Total number of events to show. Default is 5. [ecs-list-events limit='3']
 * order - Order of the events to be shown. Value can be 'ASC' or 'DESC'. Default is 'ASC'. Order is based on event date. [ecs-list-events order='DESC']
 * date - To show or hide date. Value can be 'true' or 'false'. Default is true. [ecs-list-events eventdetails='false']
@@ -49,7 +49,7 @@ If you like this plugin please rate it on WordPress.org
 = What are the shortcode Options: =
 = Shortcode Options: =
 * Basic shortcode: [ecs-list-events]
-* cat - Represents event category. [ecs-list-events cat='festival']
+* cat - Represents event category. [ecs-list-events cat='festival, personal']
 * limit - Total number of events to show. Default is 5. [ecs-list-events limit='3']
 * order - Order of the events to be shown. Value can be 'ASC' or 'DESC'. Default is 'ASC'. Order is based on event date. [ecs-list-events order='DESC']
 * date - To show or hide date. Value can be 'true' or 'false'. Default is true. [ecs-list-events eventdetails='false']
@@ -85,7 +85,7 @@ include echo do_shortcode("[ecs-list-events]"); in the template where you want t
 
 == Upgrade Notice ==
 = 1.0.7 =
-Add options : contentorder, month, past, key
+Add options : multi-categories, contentorder, month, past, key
 = 1.0.6 =
 Fix missing ul
 = 1.0.5 =
@@ -99,7 +99,7 @@ Fix missing ul
 
 == Changelog ==
 = 1.0.7 =
-Add options : contentorder, month, past, key
+Add options : multi-categories, contentorder, month, past, key
 = 1.0.6 =
 Fix missing ul
 = 1.0.5 =
