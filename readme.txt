@@ -4,7 +4,7 @@ Tags: event, events, calendar, shortcode, modern tribe
 Requires at least: 3.0
 Tested up to: 4.1
 Stable tag: trunk
-Version: 1.0.7
+Version: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Example shortcode to show next 8 events in the category festival in ASC order wi
 * message - Message to show when there are no events. Defaults to 'There are no upcoming events at this time.'
 * viewall - Determines whether to show 'View all events' or not. Values can be 'true' or 'false'. Default to 'true' [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false']
 * contentorder - Manage the order of content with commas. Default to `title, thumbnail, excerpt, date, venue`. [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false' contentorder='title, thumbnail, excerpt, date, venue']
-* month - Show only specific Month. [ecs-list-events cat='festival' month='2015-06']
+* month - Show only specific Month. Type 'current' for displaying current month only [ecs-list-events cat='festival' month='2015-06']
 * past - Show Outdated Events. [ecs-list-events cat='festival' past='yes']
 * key - Order with Start Date [ecs-list-events cat='festival' key='start date']
 
@@ -61,7 +61,7 @@ If you like this plugin please rate it on WordPress.org
 * message - Message to show when there are no events. Defaults to 'There are no upcoming events at this time.'
 * viewall - Determines whether to show 'View all events' or not. Values can be 'true' or 'false'. Default to 'true' [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false']
 * contentorder - Manage the order of content with commas. Default to `title, thumbnail, excerpt, date, venue`. [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false' contentorder='title, thumbnail, excerpt, date, venue']
-* month - Show only specific Month. [ecs-list-events cat='festival' month='2015-06']
+* month - Show only specific Month. Type 'current' for displaying current month only. [ecs-list-events cat='festival' month='2015-06']
 * past - Show Outdated Events. [ecs-list-events cat='festival' past='yes']
 * key - Order with Start Date [ecs-list-events cat='festival' key='start date']
 

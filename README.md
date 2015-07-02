@@ -77,7 +77,7 @@ The shortcode displays lists of your events. You can control the event display w
   [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false' contentorder='title, thumbnail, excerpt, date, venue']
   ```
 
-13. month identifier - Show only specific Month.
+13. month identifier - Show only specific Month. Type 'current' for displaying current month only.
   ```  
   [ecs-list-events cat='festival' month='2015-06']
   ```
