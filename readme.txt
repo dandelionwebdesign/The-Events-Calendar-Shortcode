@@ -1,10 +1,11 @@
 === The Events Calendar Shortcode ===
-Contributors:  dandelionweb, ankitpokhrel
+Contributors:  dandelionweb, ankitpokhrel,sujin2f
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JEMTB4U8SYFL6
 Tags: event, events, calendar, shortcode, modern tribe
 Requires at least: 3.0
-Tested up to: 4.1
+Tested up to: 4.2.2
 Stable tag: trunk
-Version: 1.0.8
+Version: 1.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,9 +18,12 @@ This plugin adds a shortcode for use with The Events Calendar Plugin (by Modern 
 The shortcode displays lists of your events.  You can control the event display with the shortcode options.
 Example shortcode to show next 8 events in the category festival in ASC order with date showing [ecs-list-events cat='festival' limit='8']
 
+= Donations: =
+I appreciate all donations, no matter the size. Further development of this plugin is not contingent on donations, but they are a nice incentive. To donate click on the "donate to this plugin" link in the sidebar below the Authors.
+
 = Shortcode Options: =
 * Basic shortcode: [ecs-list-events]
-* cat - Represents event category. [ecs-list-events cat='festival, personal’]
+* cat - Represents event category. [ecs-list-events cat='festival, workshops’]
 * limit - Total number of events to show. Default is 5. [ecs-list-events limit='3']
 * order - Order of the events to be shown. Value can be 'ASC' or 'DESC'. Default is 'ASC'. Order is based on event date. [ecs-list-events order='DESC']
 * date - To show or hide date. Value can be 'true' or 'false'. Default is true. [ecs-list-events eventdetails='false']
@@ -49,7 +53,7 @@ If you like this plugin please rate it on WordPress.org
 = What are the shortcode Options: =
 = Shortcode Options: =
 * Basic shortcode: [ecs-list-events]
-* cat - Represents event category. [ecs-list-events cat='festival, personal']
+* cat - Represents event category. [ecs-list-events cat='festival, workshops']
 * limit - Total number of events to show. Default is 5. [ecs-list-events limit='3']
 * order - Order of the events to be shown. Value can be 'ASC' or 'DESC'. Default is 'ASC'. Order is based on event date. [ecs-list-events order='DESC']
 * date - To show or hide date. Value can be 'true' or 'false'. Default is true. [ecs-list-events eventdetails='false']
@@ -84,8 +88,12 @@ The plugin does not include styling. Events are listed in ul li tags with approp
 include echo do_shortcode("[ecs-list-events]"); in the template where you want the events list to display.
 
 == Upgrade Notice ==
+= 1.0.9 =
+Minor Error Change - Multiple Categories
+= 1.0.8 =
+Add options : multi-categories - Thanks to sujin2f
 = 1.0.7 =
-Add options : multi-categories, contentorder, month, past, key
+Add options : contentorder, month, past, key  - Thanks to sujin2f
 = 1.0.6 =
 Fix missing ul
 = 1.0.5 =
@@ -98,8 +106,12 @@ Fix missing ul
 * Initial Release
 
 == Changelog ==
+= 1.0.9 =
+Minor Error Change - Multiple Categories
+= 1.0.8 =
+Add options : multi-categories - Thanks to sujin2f
 = 1.0.7 =
-Add options : multi-categories, contentorder, month, past, key
+* Add options : contentorder, month, past, key - Thanks to sujin2f
 = 1.0.6 =
 Fix missing ul
 = 1.0.5 =
