@@ -88,12 +88,23 @@ class Events_Calendar_Shortcode
 
 		// Category
 		if ( $ecs_cat ) {
-			$ecs_cats = explode( ",", $ecs_cat );
-			$ecs_cats = array_map( 'trim', $ecs_cats );
+			if ( strpos( $ecs_cat, "," ) !== false ) {
+				$ecs_cats = explode( ",", $ecs_cat );
+				$ecs_cats = array_map( 'trim', $ecs_cats );
+			} else {
+				$ecs_cats = $ecs_cat;
+			}
+
 			$ecs_event_tax = array(
+				'relation' => 'OR',
 				array(
 					'taxonomy' => 'tribe_events_cat',
 					'field' => 'name',
+					'terms' => $ecs_cats,
+				),
+				array(
+					'taxonomy' => 'tribe_events_cat',
+					'field' => 'slug',
 					'terms' => $ecs_cats,
 				)
 			);
