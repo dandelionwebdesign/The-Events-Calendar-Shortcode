@@ -182,7 +182,7 @@ class Events_Calendar_Shortcode
 					switch ( trim( $contentorder ) ) {
 						case 'title' :
 							$output .= '<h4 class="entry-title summary">' .
-											'<a href="' . tribe_get_event_link() . '" rel="bookmark">' . get_the_title() . '</a>
+											'<a href="' . tribe_get_event_link() . '" rel="bookmark">' . apply_filters( 'ecs_event_list_title', get_the_title(), $atts ) . '</a>
 										</h4>';
 							break;
 
@@ -209,13 +209,13 @@ class Events_Calendar_Shortcode
 
 						case 'date' :
 							if( self::isValid($atts['eventdetails']) ) {
-								$output .= '<span class="duration time">' . tribe_events_event_schedule_details() . '</span>';
+								$output .= '<span class="duration time">' . apply_filters( 'ecs_event_list_details', tribe_events_event_schedule_details(), $atts ) . '</span>';
 							}
 							break;
 
 						case 'venue' :
 							if( self::isValid($atts['venue']) ) {
-								$output .= '<span class="duration venue"><em> at </em>' . tribe_get_venue() . '</span>';
+								$output .= '<span class="duration venue"><em> at </em>' . apply_filters( 'ecs_event_list_venue', tribe_get_venue(), $atts ) . '</span>';
 							}
 							break;
 					}
@@ -225,7 +225,7 @@ class Events_Calendar_Shortcode
 			$output .= '</ul>';
 
 			if( self::isValid($atts['viewall']) ) {
-				$output .= '<span class="ecs-all-events"><a href="' . tribe_get_events_link() . '" rel="bookmark">' . translate( 'View All Events', 'tribe-events-calendar' ) . '</a></span>';
+				$output .= '<span class="ecs-all-events"><a href="' . apply_filters( 'ecs_event_list_viewall_link', tribe_get_events_link(), $atts ) .'" rel="bookmark">' . translate( 'View All Events', 'tribe-events-calendar' ) . '</a></span>';
 			}
 
 		} else { //No Events were Found
