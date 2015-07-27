@@ -5,7 +5,7 @@ Tags: event, events, calendar, shortcode, modern tribe
 Requires at least: 3.0
 Tested up to: 4.2.2
 Stable tag: trunk
-Version: 1.0.9
+Version: 1.0.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,8 @@ The plugin does not include styling. Events are listed in ul li tags with approp
 include echo do_shortcode("[ecs-list-events]"); in the template where you want the events list to display.
 
 == Upgrade Notice ==
+= 1.0.10 =
+Minor Error Change - Add Link to Thumbnail
 = 1.0.9 =
 Minor Error Change - Multiple Categories
 = 1.0.8 =
@@ -106,6 +108,8 @@ Fix missing ul
 * Initial Release
 
 == Changelog ==
+= 1.0.10 =
+Minor Error Change - Add Link to Thumbnail
 = 1.0.9 =
 Minor Error Change - Multiple Categories
 = 1.0.8 =
