@@ -64,9 +64,8 @@ class Events_Calendar_Shortcode
 
 		global $wp_query, $post;
 		$output = '';
-		$ecs_event_tax = '';
 
-		extract( shortcode_atts( array(
+		$atts = shortcode_atts( array(
 			'cat' => '',
 			'month' => '',
 			'limit' => 5,
@@ -83,29 +82,30 @@ class Events_Calendar_Shortcode
 			'thumb' => 'false',
 			'thumbwidth' => '',
 			'thumbheight' => '',
-			'contentorder' => 'title, thumbnail, excerpt, date, venue'
-		), $atts, 'ecs-list-events' ), EXTR_PREFIX_ALL, 'ecs' );
+			'contentorder' => 'title, thumbnail, excerpt, date, venue',
+			'event_tax' => '',
+		), $atts, 'ecs-list-events' );
 
 		// Category
-		if ( $ecs_cat ) {
-			if ( strpos( $ecs_cat, "," ) !== false ) {
-				$ecs_cats = explode( ",", $ecs_cat );
-				$ecs_cats = array_map( 'trim', $ecs_cats );
+		if ( $atts['cat'] ) {
+			if ( strpos( $atts['cat'], "," ) !== false ) {
+				$atts['cats'] = explode( ",", $atts['cat'] );
+				$atts['cats'] = array_map( 'trim', $atts['cats'] );
 			} else {
-				$ecs_cats = $ecs_cat;
+				$atts['cats'] = $atts['cat'];
 			}
 
-			$ecs_event_tax = array(
+			$atts['event_tax'] = array(
 				'relation' => 'OR',
 				array(
 					'taxonomy' => 'tribe_events_cat',
 					'field' => 'name',
-					'terms' => $ecs_cats,
+					'terms' => $atts['cats'],
 				),
 				array(
 					'taxonomy' => 'tribe_events_cat',
 					'field' => 'slug',
-					'terms' => $ecs_cats,
+					'terms' => $atts['cats'],
 				)
 			);
 		}
@@ -114,20 +114,20 @@ class Events_Calendar_Shortcode
 		$meta_date_compare = '>=';
 		$meta_date_date = date( 'Y-m-d' );
 
-		if ( $ecs_time == 'past' || !empty( $ecs_past ) ) {
+		if ( $atts['time'] == 'past' || !empty( $atts['past'] ) ) {
 			$meta_date_compare = '<';
 		}
 
 		// Key
-		if ( str_replace( ' ', '', trim( strtolower( $ecs_key ) ) ) == 'startdate' ) {
-			$ecs_key = '_EventStartDate';
+		if ( str_replace( ' ', '', trim( strtolower( $atts['key'] ) ) ) == 'startdate' ) {
+			$atts['key'] = '_EventStartDate';
 		} else {
-			$ecs_key = '_EventEndDate';
+			$atts['key'] = '_EventEndDate';
 		}
 		// Date
-		$ecs_meta_date = array(
+		$atts['meta_date'] = array(
 			array(
-				'key' => $ecs_key,
+				'key' => $atts['key'],
 				'value' => $meta_date_date,
 				'compare' => $meta_date_compare,
 				'type' => 'DATETIME'
@@ -135,11 +135,11 @@ class Events_Calendar_Shortcode
 		);
 
 		// Specific Month
-		if ( $ecs_month == 'current' ) {
-			$ecs_month = date( 'Y-m' );
+		if ( $atts['month'] == 'current' ) {
+			$atts['month'] = date( 'Y-m' );
 		}
-		if ($ecs_month) {
-			$month_array = explode("-", $ecs_month);
+		if ($atts['month']) {
+			$month_array = explode("-", $atts['month']);
 
 			$month_yearstr = $month_array[0];
 			$month_monthstr = $month_array[1];
@@ -147,9 +147,9 @@ class Events_Calendar_Shortcode
 			$month_startdate = date($month_yearstr . "-" . $month_monthstr . "-1");
 			$month_enddate = date($month_yearstr . "-" . $month_monthstr . "-t");
 
-			$ecs_meta_date = array(
+			$atts['meta_date'] = array(
 				array(
-					'key' => $ecs_key,
+					'key' => $atts['key'],
 					'value' => array($month_startdate, $month_enddate),
 					'compare' => 'BETWEEN',
 					'type' => 'DATETIME'
@@ -159,18 +159,18 @@ class Events_Calendar_Shortcode
 
 		$posts = get_posts( array(
 			'post_type' => 'tribe_events',
-			'posts_per_page' => $ecs_limit,
-			'tax_query'=> $ecs_event_tax,
-			'meta_key' => $ecs_key,
+			'posts_per_page' => $atts['limit'],
+			'tax_query'=> $atts['event_tax'],
+			'meta_key' => $atts['key'],
 			'orderby' => 'meta_value',
-			'author' => $ecs_author,
-			'order' => $ecs_order,
-			'meta_query' => array( $ecs_meta_date )
+			'author' => $atts['author'],
+			'order' => $atts['order'],
+			'meta_query' => array( $atts['meta_date'] )
 		) );
 
 		if ($posts) {
 			$output .= '<ul class="ecs-event-list">';
-			$ecs_contentorder = explode( ',', $ecs_contentorder );
+			$atts['contentorder'] = explode( ',', $atts['contentorder'] );
 
 			foreach( $posts as $post ) :
 				setup_postdata( $post );
@@ -178,32 +178,36 @@ class Events_Calendar_Shortcode
 				$output .= '<li class="ecs-event">';
 
 				// Put Values into $output
-				foreach ( $ecs_contentorder as $contentorder ) {
+				foreach ( $atts['contentorder'] as $contentorder ) {
 					switch ( trim( $contentorder ) ) {
 						case 'title' :
 							$output .= '<h4 class="entry-title summary">' .
-											'<a href="' . tribe_get_event_link() . '" rel="bookmark">' . get_the_title() . '</a>
+											'<a href="' . tribe_get_event_link() . '" rel="bookmark">' . apply_filters( 'ecs_event_list_title', get_the_title(), $atts ) . '</a>
 										</h4>';
 							break;
 
 						case 'thumbnail' :
-							if( self::isValid($ecs_thumb) ) {
-								$thumbWidth = is_numeric($ecs_thumbwidth) ? $ecs_thumbwidth : '';
-								$thumbHeight = is_numeric($ecs_thumbheight) ? $ecs_thumbheight : '';
+							if( self::isValid($atts['thumb']) ) {
+								$thumbWidth = is_numeric($atts['thumbwidth']) ? $atts['thumbwidth'] : '';
+								$thumbHeight = is_numeric($atts['thumbheight']) ? $atts['thumbheight'] : '';
+								if( !empty($thumbWidth) && !empty($thumbHeight) ) {
+									$output .= get_the_post_thumbnail(get_the_ID(), array($thumbWidth, $thumbHeight) );
+								} else {
 
-								$size = ( !empty($thumbWidth) && !empty($thumbHeight) ) ? array( $thumbWidth, $thumbHeight ) : 'medium';
+									$size = ( !empty($thumbWidth) && !empty($thumbHeight) ) ? array( $thumbWidth, $thumbHeight ) : 'medium';
 
-								if ( $thumb = get_the_post_thumbnail( get_the_ID(), $size ) ) {
-									$output .= '<a href="' . tribe_get_event_link() . '">';
-									$output .= $thumb;
-									$output .= '</a>';
+									if ( $thumb = get_the_post_thumbnail( get_the_ID(), $size ) ) {
+										$output .= '<a href="' . tribe_get_event_link() . '">';
+										$output .= $thumb;
+										$output .= '</a>';
+									}
 								}
 							}
 							break;
 
 						case 'excerpt' :
-							if( self::isValid($ecs_excerpt) ) {
-								$excerptLength = is_numeric($ecs_excerpt) ? $ecs_excerpt : 100;
+							if( self::isValid($atts['excerpt']) ) {
+								$excerptLength = is_numeric($atts['excerpt']) ? $atts['excerpt'] : 100;
 								$output .= '<p class="ecs-excerpt">' .
 												self::get_excerpt($excerptLength) .
 											'</p>';
@@ -211,14 +215,14 @@ class Events_Calendar_Shortcode
 							break;
 
 						case 'date' :
-							if( self::isValid($ecs_eventdetails) ) {
-								$output .= '<span class="duration time">' . tribe_events_event_schedule_details() . '</span>';
+							if( self::isValid($atts['eventdetails']) ) {
+								$output .= '<span class="duration time">' . apply_filters( 'ecs_event_list_details', tribe_events_event_schedule_details(), $atts ) . '</span>';
 							}
 							break;
 
 						case 'venue' :
-							if( self::isValid($ecs_venue) ) {
-								$output .= '<span class="duration venue"><em> at </em>' . tribe_get_venue() . '</span>';
+							if( self::isValid($atts['venue']) ) {
+								$output .= '<span class="duration venue"><em> at </em>' . apply_filters( 'ecs_event_list_venue', tribe_get_venue(), $atts ) . '</span>';
 							}
 							break;
 					}
@@ -227,12 +231,12 @@ class Events_Calendar_Shortcode
 			endforeach;
 			$output .= '</ul>';
 
-			if( self::isValid($ecs_viewall) ) {
-				$output .= '<span class="ecs-all-events"><a href="' . tribe_get_events_link() . '" rel="bookmark">' . translate( 'View All Events', 'tribe-events-calendar' ) . '</a></span>';
+			if( self::isValid($atts['viewall']) ) {
+				$output .= '<span class="ecs-all-events"><a href="' . apply_filters( 'ecs_event_list_viewall_link', tribe_get_events_link(), $atts ) .'" rel="bookmark">' . translate( 'View All Events', 'tribe-events-calendar' ) . '</a></span>';
 			}
 
 		} else { //No Events were Found
-			$output .= translate( $ecs_message, 'tribe-events-calendar' );
+			$output .= translate( $atts['message'], 'tribe-events-calendar' );
 		} // endif
 
 		wp_reset_query();
