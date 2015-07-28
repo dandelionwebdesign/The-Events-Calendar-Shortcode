@@ -3,7 +3,7 @@
  Plugin Name: The Events Calendar Shortcode
  Plugin URI: http://dandelionwebdesign.com/downloads/shortcode-modern-tribe/
  Description: An addon to add shortcode functionality for <a href="http://wordpress.org/plugins/the-events-calendar/">The Events Calendar Plugin (Free Version) by Modern Tribe</a>.
- Version: 1.0.9
+ Version: 1.0.10
  Author: Dandelion Web Design Inc.
  Author URI: http://dandelionwebdesign.com
  Contributors: Brainchild Media Group, Reddit user miahelf, tallavic, hejeva2
@@ -24,7 +24,7 @@ if ( !defined( 'ABSPATH' ) ) {
  *
  * @package events-calendar-shortcode
  * @author Dandelion Web Design Inc.
- * @version 1.0.9
+ * @version 1.0.10
  */
 class Events_Calendar_Shortcode
 {
@@ -33,7 +33,7 @@ class Events_Calendar_Shortcode
 	 *
 	 * @since 1.0.0
 	 */
-	const VERSION = '1.0.9';
+	const VERSION = '1.0.10';
 
 	/**
 	 * Constructor. Hooks all interactions to initialize the class.
@@ -193,7 +193,13 @@ class Events_Calendar_Shortcode
 								if( !empty($thumbWidth) && !empty($thumbHeight) ) {
 									$output .= get_the_post_thumbnail(get_the_ID(), array($thumbWidth, $thumbHeight) );
 								} else {
-									$output .= get_the_post_thumbnail(get_the_ID(), 'medium');
+
++								$size = ( !empty($thumbWidth) && !empty($thumbHeight) ) ? array( $thumbWidth, $thumbHeight ) : 'medium';
++
++								if ( $thumb = get_the_post_thumbnail( get_the_ID(), $size ) ) {
++									$output .= '<a href="' . tribe_get_event_link() . '">';
++									$output .= $thumb;
++									$output .= '</a>';
 								}
 							}
 							break;
