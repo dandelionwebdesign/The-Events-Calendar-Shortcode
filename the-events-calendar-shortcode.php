@@ -194,12 +194,13 @@ class Events_Calendar_Shortcode
 									$output .= get_the_post_thumbnail(get_the_ID(), array($thumbWidth, $thumbHeight) );
 								} else {
 
-+								$size = ( !empty($thumbWidth) && !empty($thumbHeight) ) ? array( $thumbWidth, $thumbHeight ) : 'medium';
-+
-+								if ( $thumb = get_the_post_thumbnail( get_the_ID(), $size ) ) {
-+									$output .= '<a href="' . tribe_get_event_link() . '">';
-+									$output .= $thumb;
-+									$output .= '</a>';
+									$size = ( !empty($thumbWidth) && !empty($thumbHeight) ) ? array( $thumbWidth, $thumbHeight ) : 'medium';
+
+									if ( $thumb = get_the_post_thumbnail( get_the_ID(), $size ) ) {
+										$output .= '<a href="' . tribe_get_event_link() . '">';
+										$output .= $thumb;
+										$output .= '</a>';
+									}
 								}
 							}
 							break;
