@@ -86,7 +86,7 @@ class Events_Calendar_Shortcode
 			'contentorder' => 'title, thumbnail, excerpt, date, venue'
 		), $atts, 'ecs-list-events' ), EXTR_PREFIX_ALL, 'ecs' );
 
-		// Category
+		// Category_
 		if ( $ecs_cat ) {
 			if ( strpos( $ecs_cat, "," ) !== false ) {
 				$ecs_cats = explode( ",", $ecs_cat );
