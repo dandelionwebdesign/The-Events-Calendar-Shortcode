@@ -74,7 +74,9 @@ class Events_Calendar_Shortcode
 			'past' => null,
 			'venue' => 'false',
 			'author' => null,
-			'message' => 'There are no upcoming events at this time.',
+			'message' => sprintf(
+				__( 'There are no upcoming %s at this time.', 'tribe-events-calendar' ),
+				tribe_get_event_label_plural() ),
 			'key' => 'End Date',
 			'order' => 'ASC',
 			'viewall' => 'false',
