@@ -122,7 +122,7 @@ The shortcode displays lists of your events. You can control the event display w
     add_filter( 'ecs_event_list_details', 'change_events_time_to_link', 10, 2 );
     function change_events_time_to_link( $text, $atts ) {
 
-	    if ( strpos( $atts['contentorder'], 'title' ) !== false ) {
+	    if ( ( isset( $atts['contentorder'] ) ) && ( ! in_array( 'title', $atts['contentorder'] ) ) ) {
 
             // If we are not showing the Title, then wrap the Date/Time in a Link to the Event
 		    $text = '<a href = "' . tribe_get_event_link() . '" rel = "bookmark">' . $text . '</a>';
