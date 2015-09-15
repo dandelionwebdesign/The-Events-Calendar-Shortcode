@@ -224,7 +224,7 @@ class Events_Calendar_Shortcode
 
 						case 'venue' :
 							if( self::isValid($atts['venue']) ) {
-								$output .= '<span class="duration venue"><em> at </em>' . apply_filters( 'ecs_event_list_venue', tribe_get_venue(), $atts ) . '</span>';
+								$output .= '<span class="duration venue">' . apply_filters( 'ecs_event_list_venue', ' <em>at</em> ' . tribe_get_venue(), $atts ) . '</span>';
 							}
 							break;
 					}
@@ -278,9 +278,9 @@ class Events_Calendar_Shortcode
 		$excerpt = strip_tags( strip_shortcodes($excerpt) );
 		$excerpt = substr($excerpt, 0, $limit);
 		$excerpt = trim(preg_replace( '/\s+/', ' ', $excerpt));
-        if ( strlen( $excerpt ) > $limit ) {
-		  $excerpt .= '...';
-        }
+		if ( strlen( $excerpt ) > $limit ) {
+			$excerpt .= '...';
+		}
 
 		return $excerpt;
 	}
