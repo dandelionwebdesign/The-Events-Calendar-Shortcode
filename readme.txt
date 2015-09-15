@@ -1,5 +1,5 @@
 === The Events Calendar Shortcode ===
-Contributors:  dandelionweb, ankitpokhrel,sujin2f
+Contributors:  dandelionweb, ankitpokhrel, sujin2f, d4mation
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JEMTB4U8SYFL6
 Tags: event, events, calendar, shortcode, modern tribe
 Requires at least: 3.0
@@ -88,6 +88,101 @@ The plugin does not include styling. Events are listed in ul li tags with approp
 
 = How do I include a list of events in a page template? =
 include echo do_shortcode("[ecs-list-events]"); in the template where you want the events list to display.
+
+= What Filters are Available? Can I Have Some Examples? =
+
+**ecs_event_list_title**
+
+`add_filter( 'ecs_event_list_title', 'filter_category_name_from_title', 10, 2 );
+function filter_category_name_from_title( $title, $atts ) {
+
+	if ( ( isset( $atts['cat'] ) ) && ( $atts['cat'] !== '' ) && ( strpos( $atts['cat'], ',' ) === false ) ) { // If multiple Categories specified, bail
+
+		$atts['cat'] = trim( $atts['cat'] );
+
+		$term = get_term_by( 'name', $atts['cat'], 'tribe_events_cat', 'OBJECT' );
+
+		( $term === false ? $term = get_term_by( 'slug', $atts['cat'], 'tribe_events_cat', 'OBJECT' ) : '' ); // If the slug was strangely provided
+
+		$title = str_replace( $term->name . ' &#8211; ', '', $title ); // Filter "<CATEGORY NAME> - " from title. Must be HTML Entity in the str_replace().
+
+		$title = trim( $title );
+
+	}
+
+	return $title;
+
+}`
+
+**ecs_event_list_details**
+
+`add_filter( 'ecs_event_list_details', 'change_events_time_to_link', 10, 2 );
+function change_events_time_to_link( $text, $atts ) {
+
+	if ( strpos( $atts['contentorder'], 'title' ) !== false ) {
+
+        // If we are not showing the Title, then wrap the Date/Time in a Link to the Event
+		$text = '<a href = "' . tribe_get_event_link() . '" rel = "bookmark">' . $text . '</a>';
+
+	}
+
+	return $text;
+
+}`
+
+**ecs_event_list_venue**
+
+`add_filter( 'ecs_event_list_venue', 'change_events_venue_prefix', 10, 2 );
+function change_events_venue_prefix( $text, $atts ) {
+
+    // Replace <em>at</em> with whatever you would like via str_replace()
+	$text = str_replace( '<em>at</em>', 'Location:', $text );
+
+	return $text;
+
+}`
+
+**ecs_event_list_viewall_link**
+
+`add_filter( 'ecs_event_list_viewall_link', 'change_events_links_to_category', 10, 2 );
+function change_events_links_to_category( $link, $atts ) {
+
+	if ( ( isset( $atts['cat'] ) ) && ( $atts['cat'] !== '' ) && ( strpos( $atts['cat'], ',' ) === false ) ) { // If multiple Categories specified, bail
+
+		$atts['cat'] = trim( $atts['cat'] );
+
+		$term = get_term_by( 'name', $atts['cat'], 'tribe_events_cat', 'OBJECT' );
+
+		( $term === false ? $term = get_term_by( 'slug', $atts['cat'], 'tribe_events_cat', 'OBJECT' ) : '' ); // If the slug was strangely provided
+
+		$link = get_term_link( $term->term_id, 'tribe_events_cat' );
+
+	}
+
+	return $link;
+
+}`
+
+**ecs_event_list_viewall_text**
+
+`add_filter( 'ecs_event_list_viewall_text', 'change_events_viewall_text_to_category', 10, 2 );
+function change_events_viewall_text_to_category( $text, $atts ) {
+
+	if ( ( isset( $atts['cat'] ) ) && ( $atts['cat'] !== '' ) && ( strpos( $atts['cat'], ',' ) === false ) ) { // If multiple Categories specified, bail
+
+		$atts['cat'] = trim( $atts['cat'] );
+
+		$term = get_term_by( 'name', $atts['cat'], 'tribe_events_cat', 'OBJECT' );
+
+		( $term === false ? $term = get_term_by( 'slug', $atts['cat'], 'tribe_events_cat', 'OBJECT' ) : '' ); // If the slug was strangely provided
+
+        $text = 'View All ' . $term->name . ' Events';
+
+	}
+
+	return $text;
+
+}`
 
 == Upgrade Notice ==
 = 1.0.11 =
