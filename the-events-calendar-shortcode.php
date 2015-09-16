@@ -193,12 +193,12 @@ class Events_Calendar_Shortcode
 								$thumbWidth = is_numeric($atts['thumbwidth']) ? $atts['thumbwidth'] : '';
 								$thumbHeight = is_numeric($atts['thumbheight']) ? $atts['thumbheight'] : '';
 								if( !empty($thumbWidth) && !empty($thumbHeight) ) {
-									$output .= get_the_post_thumbnail($post->ID, array($thumbWidth, $thumbHeight) );
+									$output .= get_the_post_thumbnail(get_the_ID(), array($thumbWidth, $thumbHeight) );
 								} else {
 
 									$size = ( !empty($thumbWidth) && !empty($thumbHeight) ) ? array( $thumbWidth, $thumbHeight ) : 'medium';
 
-									if ( $thumb = get_the_post_thumbnail( $post->ID, $size ) ) {
+									if ( $thumb = get_the_post_thumbnail( get_the_ID(), $size ) ) {
 										$output .= '<a href="' . tribe_get_event_link() . '">';
 										$output .= $thumb;
 										$output .= '</a>';
@@ -224,7 +224,7 @@ class Events_Calendar_Shortcode
 
 						case 'venue' :
 							if( self::isValid($atts['venue']) ) {
-								$output .= '<span class="duration venue">' . apply_filters( 'ecs_event_list_venue', ' <em>at</em> ' . tribe_get_venue(), $atts ) . '</span>';
+								$output .= '<span class="duration venue"><em> at </em>' . apply_filters( 'ecs_event_list_venue', tribe_get_venue(), $atts ) . '</span>';
 							}
 							break;
 					}
@@ -234,7 +234,7 @@ class Events_Calendar_Shortcode
 			$output .= '</ul>';
 
 			if( self::isValid($atts['viewall']) ) {
-				$output .= '<span class="ecs-all-events"><a href="' . apply_filters( 'ecs_event_list_viewall_link', tribe_get_events_link(), $atts ) .'" rel="bookmark">' . translate( apply_filters( 'ecs_event_list_viewall_text', 'View All Events', $atts ), 'tribe-events-calendar' ) . '</a></span>';
+				$output .= '<span class="ecs-all-events"><a href="' . apply_filters( 'ecs_event_list_viewall_link', tribe_get_events_link(), $atts ) .'" rel="bookmark">' . translate( 'View All Events', 'tribe-events-calendar' ) . '</a></span>';
 			}
 
 		} else { //No Events were Found
@@ -278,9 +278,7 @@ class Events_Calendar_Shortcode
 		$excerpt = strip_tags( strip_shortcodes($excerpt) );
 		$excerpt = substr($excerpt, 0, $limit);
 		$excerpt = trim(preg_replace( '/\s+/', ' ', $excerpt));
-		if ( strlen( $excerpt ) > $limit ) {
-			$excerpt .= '...';
-		}
+		$excerpt .= '...';
 
 		return $excerpt;
 	}
