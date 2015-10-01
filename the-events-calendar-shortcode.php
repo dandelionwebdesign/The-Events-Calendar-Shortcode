@@ -118,7 +118,7 @@ class Events_Calendar_Shortcode
 
 		// Past Event
 		$meta_date_compare = '>=';
-		$meta_date_date = date( 'Y-m-d' );
+		$meta_date_date = current_time( 'Y-m-d' );
 
 		if ( $atts['time'] == 'past' || !empty( $atts['past'] ) ) {
 			$meta_date_compare = '<';
@@ -142,7 +142,7 @@ class Events_Calendar_Shortcode
 
 		// Specific Month
 		if ( $atts['month'] == 'current' ) {
-			$atts['month'] = date( 'Y-m' );
+			$atts['month'] = current_time( 'Y-m' );
 		}
 		if ($atts['month']) {
 			$month_array = explode("-", $atts['month']);
@@ -150,8 +150,8 @@ class Events_Calendar_Shortcode
 			$month_yearstr = $month_array[0];
 			$month_monthstr = $month_array[1];
 
-			$month_startdate = date($month_yearstr . "-" . $month_monthstr . "-1");
-			$month_enddate = date($month_yearstr . "-" . $month_monthstr . "-t");
+			$month_startdate = current_time($month_yearstr . "-" . $month_monthstr . "-1");
+			$month_enddate = current_time($month_yearstr . "-" . $month_monthstr . "-t");
 
 			$atts['meta_date'] = array(
 				array(
