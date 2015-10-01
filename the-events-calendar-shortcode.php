@@ -3,7 +3,7 @@
  Plugin Name: The Events Calendar Shortcode
  Plugin URI: http://dandelionwebdesign.com/downloads/shortcode-modern-tribe/
  Description: An addon to add shortcode functionality for <a href="http://wordpress.org/plugins/the-events-calendar/">The Events Calendar Plugin (Free Version) by Modern Tribe</a>.
- Version: 1.0.11
+ Version: 1.0.12
  Author: Dandelion Web Design Inc.
  Author URI: http://dandelionwebdesign.com
  Contributors: Brainchild Media Group, Reddit user miahelf, tallavic, hejeva2
@@ -24,7 +24,7 @@ if ( !defined( 'ABSPATH' ) ) {
  *
  * @package events-calendar-shortcode
  * @author Dandelion Web Design Inc.
- * @version 1.0.11
+ * @version 1.0.10
  */
 class Events_Calendar_Shortcode
 {
@@ -33,7 +33,7 @@ class Events_Calendar_Shortcode
 	 *
 	 * @since 1.0.0
 	 */
-	const VERSION = '1.0.11';
+	const VERSION = '1.0.12';
 
 	/**
 	 * Constructor. Hooks all interactions to initialize the class.
@@ -84,9 +84,13 @@ class Events_Calendar_Shortcode
 			'thumb' => 'false',
 			'thumbwidth' => '',
 			'thumbheight' => '',
-			'contentorder' => 'title, thumbnail, excerpt, date, venue',
+			'contentorder' => 'title, category, thumbnail, excerpt, date, venue',
 			'event_tax' => '',
+			'show_categories' => null,
+			'show_category' => null,
 		), $atts, 'ecs-list-events' );
+
+		$show_category = ( $atts['show_categories'] || $atts['show_category'] ) ? true : false;
 
 		// Category
 		if ( $atts['cat'] ) {
@@ -188,12 +192,19 @@ class Events_Calendar_Shortcode
 										</h4>';
 							break;
 
+						case 'category' :
+							if ( !$show_category ) break;
+							$output .= '<div class="event-category">' .
+										tribe_get_event_categories() .
+									'</div>';
+							break;
+
 						case 'thumbnail' :
 							if( self::isValid($atts['thumb']) ) {
 								$thumbWidth = is_numeric($atts['thumbwidth']) ? $atts['thumbwidth'] : '';
 								$thumbHeight = is_numeric($atts['thumbheight']) ? $atts['thumbheight'] : '';
 								if( !empty($thumbWidth) && !empty($thumbHeight) ) {
-									$output .= get_the_post_thumbnail($post->ID, array($thumbWidth, $thumbHeight) );
+    									$output .= get_the_post_thumbnail( $post->ID, array($thumbWidth, $thumbHeight) );
 								} else {
 
 									$size = ( !empty($thumbWidth) && !empty($thumbHeight) ) ? array( $thumbWidth, $thumbHeight ) : 'medium';
@@ -278,6 +289,7 @@ class Events_Calendar_Shortcode
 		$excerpt = strip_tags( strip_shortcodes($excerpt) );
 		$excerpt = substr($excerpt, 0, $limit);
 		$excerpt = trim(preg_replace( '/\s+/', ' ', $excerpt));
+
 		if ( strlen( $excerpt ) > $limit ) {
 			$excerpt .= '...';
 		}
