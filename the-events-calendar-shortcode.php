@@ -6,7 +6,7 @@
  Version: 1.0.11
  Author: Dandelion Web Design Inc.
  Author URI: http://dandelionwebdesign.com
- Contributors: Brainchild Media Group, Reddit user miahelf, tallavic, hejeva2
+ Contributors: Brainchild Media Group, Reddit user miahelf, tallavic, hejeva2, sophist
  Contributor URL: http://brainchildmediagroup.com, http://www.reddit.com/user/miahelf
  License: GPL2 or later
  License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -177,7 +177,18 @@ class Events_Calendar_Shortcode
 			foreach( $posts as $post ) :
 				setup_postdata( $post );
 
-				$output .= '<li class="ecs-event">';
+				$li_classes = 'ecs-event';
+
+				$start_date = tribe_get_start_date($post, false, 'Y-m-d');
+				$today  = date( 'Y-m-d', current_time( 'timestamp' ) );
+				$tomorrow  = date( 'Y-m-d', strtotime( 'tomorrow', current_time( 'timestamp' ) ) );
+				if ($start_date == $today) {
+					$li_classes .= ' today';
+				} else if ($start_date == $tomorrow) {
+					$li_classes .= ' tomorrow';
+				}
+
+				$output .= '<li class="' . $li_classes .'">';
 
 				// Put Values into $output
 				foreach ( $atts['contentorder'] as $contentorder ) {
@@ -278,7 +289,7 @@ class Events_Calendar_Shortcode
 		$excerpt = strip_tags( strip_shortcodes($excerpt) );
 		$excerpt = substr($excerpt, 0, $limit);
 		$excerpt = trim(preg_replace( '/\s+/', ' ', $excerpt));
-		if ( strlen( $excerpt ) > $limit ) {
+		if ( strlen( $excerpt ) >= $limit ) {
 			$excerpt .= '...';
 		}
 

@@ -1,5 +1,5 @@
 === The Events Calendar Shortcode ===
-Contributors:  dandelionweb, ankitpokhrel, sujin2f, d4mation
+Contributors:  dandelionweb, ankitpokhrel, sujin2f, d4mation, sophist
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JEMTB4U8SYFL6
 Tags: event, events, calendar, shortcode, modern tribe
 Requires at least: 3.0
@@ -197,7 +197,7 @@ function change_events_viewall_text_to_category( $text, $atts ) {
 Add Link to Thumbnail
 merge pull request from d4mation -Replaced extracted variables with $atts as using extract was deprecated
 =1.0.10 =
-Minor Error Change - fix  name and slug 
+Minor Error Change - fix  name and slug
 = 1.0.9 =
 Minor Error Change - Multiple Categories
 = 1.0.8 =
