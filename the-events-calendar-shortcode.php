@@ -183,9 +183,9 @@ class Events_Calendar_Shortcode
 				$today  = date( 'Y-m-d', current_time( 'timestamp' ) );
 				$tomorrow  = date( 'Y-m-d', strtotime( 'tomorrow', current_time( 'timestamp' ) ) );
 				if ($start_date == $today) {
-					$li_classes .= ' today';
+					$li_classes .= ' ecs-today';
 				} else if ($start_date == $tomorrow) {
-					$li_classes .= ' tomorrow';
+					$li_classes .= ' ecs-tomorrow';
 				}
 
 				$output .= '<li class="' . $li_classes .'">';
