@@ -1,5 +1,5 @@
 === The Events Calendar Shortcode ===
-Contributors:  dandelionweb, ankitpokhrel, sujin2f, d4mation
+Contributors:  dandelionweb, ankitpokhrel, sujin2f, d4mation, sophist
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JEMTB4U8SYFL6
 Tags: event, events, calendar, shortcode, modern tribe
 Requires at least: 3.0
