@@ -23,19 +23,24 @@ I appreciate all donations, no matter the size. Further development of this plug
 
 = Shortcode Options: =
 * Basic shortcode: [ecs-list-events]
-* cat - Represents single event category. [ecs-list-events cat='festival’]
-* cats - Use plural when you want multiple categories [ecs-list-events cats='festival, workshops']
+* cat - List one or more categories. [ecs-list-events cat='festival’] or [ecs-list-events cats='festival, workshops']
+  Note: Previous documentation suggested cats='festival, workshops' however this was incorrect.
 * limit - Total number of events to show. Default is 5. [ecs-list-events limit='3']
 * order - Order of the events to be shown. Value can be 'ASC' or 'DESC'. Default is 'ASC'. Order is based on event date. [ecs-list-events order='DESC']
-* date - To show or hide date. Value can be 'true' or 'false'. Default is true. [ecs-list-events eventdetails='false']
+* author - List one or more author-ids [ecs-list-events author='2,3,6,42']
+* eventdetails - To show or hide date. Value can be 'true' or 'false'. Default is true. [ecs-list-events eventdetails='false']
 * venue - To show or hide the venue. Value can be 'true' or 'false'. Default is false. [ecs-list-events venue='true']
-* excerpt - To show or hide the excerpt and set excerpt length. Default is false. [ecs-list-events excerpt='true'] //displays excerpt with length 100
- excerpt='300' //displays excerpt with length 300
-* thumb - To show or hide thumbnail image. Default is false. [ecs-list-events thumb='true'] //displays post thumbnail in default thumbnail dimension from media settings.
-* You can use 2 other attributes: thumbwidth and thumbheight to customize the thumbnail size [ecs-list-events thumb='true' thumbwidth='150' thumbheight='150']
+* excerpt - To show or hide the excerpt and set excerpt length. Default is false.
+  To display an excerpt with default length 100: [ecs-list-events excerpt='true']
+  To display an excerpt with length 300: [ecs-list-events excerpt='300']
+* thumb - To show or hide thumbnail image. Default is false. [ecs-list-events thumb='true']
+  This displays the post thumbnail in the default thumbnail dimension from media settings.
+  You can use two other attributes - thumbwidth and thumbheight - to customize the thumbnail size.
+  To have thumbnails at a maximum size of 150x150: [ecs-list-events thumb='true' thumbwidth='150' thumbheight='150']
 * message - Message to show when there are no events. Defaults to 'There are no upcoming events at this time.'
-* viewall - Determines whether to show 'View all events' or not. Values can be 'true' or 'false'. Default to 'true' [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false']
-* contentorder - Manage the order of content with commas. Default to `title, thumbnail, excerpt, date, venue`. [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false' contentorder='title, thumbnail, excerpt, date, venue']
+* viewall - Determines whether to show the 'View all events' link or not. Values can be 'true' or 'false'. Default to 'true' [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false']
+* contentorder - Manage the order of content with commas. Default is `title, thumbnail, excerpt, date, venue`.
+  If you want to float the image left with CSS use [ecs-list-events contentorder='thumbnail, title, excerpt, date, venue']
 * month - Show only specific Month. Type 'current' for displaying current month only [ecs-list-events cat='festival' month='2015-06']
 * past - Show Outdated Events. [ecs-list-events cat='festival' past='yes']
 * key - Order with Start Date [ecs-list-events cat='festival' key='start date']
@@ -54,20 +59,25 @@ If you like this plugin please rate it on WordPress.org
 = What are the shortcode Options: =
 = Shortcode Options: =
 * Basic shortcode: [ecs-list-events]
-* cat - Represents event category. [ecs-list-events cat='festival']
-* cats - Use plural when you want multiple categories [ecs-list-events cats='festival, workshops']
+* cat - List one or more categories. [ecs-list-events cat='festival’] or [ecs-list-events cats='festival, workshops']
+  Note: Previous documentation suggested cats='festival, workshops' however this was incorrect.
 * limit - Total number of events to show. Default is 5. [ecs-list-events limit='3']
 * order - Order of the events to be shown. Value can be 'ASC' or 'DESC'. Default is 'ASC'. Order is based on event date. [ecs-list-events order='DESC']
-* date - To show or hide date. Value can be 'true' or 'false'. Default is true. [ecs-list-events eventdetails='false']
+* author - List one or more author-ids [ecs-list-events author='2,3,6,42']
+* eventdetails - To show or hide date. Value can be 'true' or 'false'. Default is true. [ecs-list-events eventdetails='false']
 * venue - To show or hide the venue. Value can be 'true' or 'false'. Default is false. [ecs-list-events venue='true']
-* excerpt - To show or hide the excerpt and set excerpt length. Default is false. [ecs-list-events excerpt='true'] //displays excerpt with length 100
- excerpt='300' //displays excerpt with length 300
-* thumb - To show or hide thumbnail image. Default is false. [ecs-list-events thumb='true'] //displays post thumbnail in default thumbnail dimension from media settings.
-* You can use 2 other attributes: thumbwidth and thumbheight to customize the thumbnail size [ecs-list-events thumb='true' thumbwidth='150' thumbheight='150']
+* excerpt - To show or hide the excerpt and set excerpt length. Default is false.
+  To display an excerpt with default length 100: [ecs-list-events excerpt='true']
+  To display an excerpt with length 300: [ecs-list-events excerpt='300']
+* thumb - To show or hide thumbnail image. Default is false. [ecs-list-events thumb='true']
+  This displays the post thumbnail in the default thumbnail dimension from media settings.
+  You can use two other attributes - thumbwidth and thumbheight - to customize the thumbnail size.
+  To have thumbnails at a maximum size of 150x150: [ecs-list-events thumb='true' thumbwidth='150' thumbheight='150']
 * message - Message to show when there are no events. Defaults to 'There are no upcoming events at this time.'
-* viewall - Determines whether to show 'View all events' or not. Values can be 'true' or 'false'. Default to 'true' [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false']
-* contentorder - Manage the order of content with commas. Default to `title, thumbnail, excerpt, date, venue`. [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false' contentorder='title, thumbnail, excerpt, date, venue']
-* month - Show only specific Month. Type 'current' for displaying current month only. [ecs-list-events cat='festival' month='2015-06']
+* viewall - Determines whether to show the 'View all events' link or not. Values can be 'true' or 'false'. Default to 'true' [ecs-list-events cat='festival' limit='3' order='DESC' viewall='false']
+* contentorder - Manage the order of content with commas. Default is `title, thumbnail, excerpt, date, venue`.
+  If you want to float the image left with CSS use [ecs-list-events contentorder='thumbnail, title, excerpt, date, venue']
+* month - Show only specific Month. Type 'current' for displaying current month only [ecs-list-events cat='festival' month='2015-06']
 * past - Show Outdated Events. [ecs-list-events cat='festival' past='yes']
 * key - Order with Start Date [ecs-list-events cat='festival' key='start date']
 
@@ -197,7 +207,7 @@ function change_events_viewall_text_to_category( $text, $atts ) {
 Add Link to Thumbnail
 merge pull request from d4mation -Replaced extracted variables with $atts as using extract was deprecated
 =1.0.10 =
-Minor Error Change - fix  name and slug 
+Minor Error Change - fix  name and slug
 = 1.0.9 =
 Minor Error Change - Multiple Categories
 = 1.0.8 =
